@@ -9,7 +9,7 @@
             packages.default =
             let pabcnetc-zip = pkgs.fetchurl {
                 url = "https://pascalabc.net/downloads/PABCNETC.zip";
-                hash = "sha256-i4pH+VSyeP4Fbt+yPYb6oGw4CE7/8N1p0osx4jwsKAk=";
+                hash = "sha256-G4oWOnSbFysdbTAwimLlgbp3DTfV1RhL44959YqmJV0=";
             };
             pabcnetc = pkgs.stdenv.mkDerivation {
                 name = "pabcnetc";
