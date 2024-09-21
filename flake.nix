@@ -7,10 +7,7 @@
         systems = nixpkgs.lib.platforms.unix;
         perSystem = { pkgs, ... }: {
             packages.default =
-            let pabcnetc-zip = pkgs.fetchurl {
-                url = "https://pascalabc.net/downloads/PABCNETC.zip";
-                hash = "sha256-6Fdf8oHgZv1TarYDhTapYfqflzf5WXqMEnbXrts+mwE=";
-            };
+            let pabcnetc-zip = ./PABCNETC.zip;
             pabcnetc = pkgs.stdenv.mkDerivation {
                 name = "pabcnetc";
                 src = pabcnetc-zip;
