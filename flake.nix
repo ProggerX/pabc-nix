@@ -9,7 +9,8 @@
             packages.default =
             let pabcnetc-zip = ./PABCNETC.zip;
             pabcnetc = pkgs.stdenv.mkDerivation {
-                name = "pabcnetc";
+                pname = "pabcnetc";
+				version = "1.0.0";
                 src = pabcnetc-zip;
                 phases = [ "installPhase" ];
                 installPhase = ''
