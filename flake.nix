@@ -3,8 +3,8 @@
         nixpkgs.url = "github:nixos/nixpkgs";
         flake-parts.url = "github:hercules-ci/flake-parts";
     };
-    outputs = { nixpkgs, flake-parts, ... }@inputs: flake-parts.lib.mkFlake { inherit inputs; } {
-        systems = nixpkgs.lib.platforms.unix;
+    outputs = { flake-parts, ... }@inputs: flake-parts.lib.mkFlake { inherit inputs; } {
+        systems = ["x86_64-linux" "aarch64-linux"];
         perSystem = { pkgs, ... }: {
             packages.default =
             let pabcnetc-zip = ./PABCNETC.zip;
@@ -20,7 +20,9 @@
                 '';
             };
             in pkgs.writeShellScriptBin "pabc-run" ''
-                ${pkgs.mono}/bin/mono ${pabcnetc}/pabcnetc.exe $1 && ${pkgs.mono}/bin/mono ''${1%.*}.exe && rm ''${1%.*}.exe ''${1%.*}.exe.mdb
+                ${pkgs.mono}/bin/mono ${pabcnetc}/pabcnetc.exe $1 &&
+				${pkgs.wine64}/bin/wine64 ''${1%.*}.exe &&
+				rm ''${1%.*}.exe ''${1%.*}.exe.mdb
             '';
         };
     };
