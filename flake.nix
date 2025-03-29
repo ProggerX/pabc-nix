@@ -1,6 +1,6 @@
 {
     inputs = {
-        nixpkgs.url = "github:nixos/nixpkgs";
+        nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
         flake-parts.url = "github:hercules-ci/flake-parts";
     };
     outputs = { flake-parts, ... }@inputs: flake-parts.lib.mkFlake { inherit inputs; } {
@@ -19,11 +19,15 @@
                     ${pkgs.p7zip}/bin/7z x -y $src
                 '';
             };
-            in pkgs.writeShellScriptBin "pabc-run" ''
-                ${pkgs.mono}/bin/mono ${pabcnetc}/pabcnetc.exe $1 &&
-				${pkgs.wine64}/bin/wine64 ''${1%.*}.exe &&
-				rm ''${1%.*}.exe ''${1%.*}.exe.mdb
-            '';
+            in pkgs.writeShellApplication {
+				name = "pabc-run";
+				runtimeInputs = with pkgs; [ mono wine64 ];
+				text = ''
+                ${pkgs.mono}/bin/mono ${pabcnetc}/pabcnetc.exe "$1" &&
+				"$2" "''${1%.*}".exe;
+				rm "''${1%.*}".exe "''${1%.*}".exe.mdb
+            	'';
+			};
         };
     };
 }
